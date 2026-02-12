@@ -2,51 +2,67 @@ let musicPlaying = false
 
 window.addEventListener('load', () => {
     launchConfetti()
+    startHearts()
 
-    // Autoplay music (works since user clicked Yes to get here)
     const music = document.getElementById('bg-music')
-    music.volume = 0.3
-    music.play().catch(() => {})
-    musicPlaying = true
-    document.getElementById('music-toggle').textContent = '🔊'
+    music.volume = 0.4
+    
+    // Attempt play - usually works since it's a cross-page navigation from a click
+    music.play().then(() => {
+        musicPlaying = true
+        document.getElementById('music-toggle').textContent = '🔊'
+    }).catch(() => {
+        // Fallback for strict browsers
+        document.addEventListener('click', () => {
+            if (!musicPlaying) {
+                music.play()
+                musicPlaying = true
+                document.getElementById('music-toggle').textContent = '🔊'
+            }
+        }, { once: true })
+    })
 })
 
+function startHearts() {
+    const heartsBg = document.getElementById('hearts-bg')
+    function createHeart() {
+        const heart = document.createElement('div')
+        heart.classList.add('heart-particle')
+        heart.innerHTML = ['❤️', '💖', '✨', '💕', '💍', '🌸'][Math.floor(Math.random() * 6)]
+        heart.style.setProperty('--left', Math.random() * 100 + 'vw')
+        heart.style.setProperty('--duration', Math.random() * 3 + 4 + 's')
+        heart.style.setProperty('--size', Math.random() * 1.5 + 0.8 + 'rem')
+        heartsBg.appendChild(heart)
+
+        setTimeout(() => {
+            heart.remove()
+        }, 8000)
+    }
+    setInterval(createHeart, 200)
+}
+
 function launchConfetti() {
-    const colors = ['#ff69b4', '#ff1493', '#ff85a2', '#ffb3c1', '#ff0000', '#ff6347', '#fff', '#ffdf00']
-    const duration = 6000
-    const end = Date.now() + duration
+    const colors = ['#ff4d6d', '#ff8fa3', '#c9184a', '#ffb3c1', '#ffffff', '#ffdf00']
+    const duration = 15 * 1000
+    const animationEnd = Date.now() + duration
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
 
-    // Initial big burst
-    confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { x: 0.5, y: 0.3 },
-        colors
-    })
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min
+    }
 
-    // Continuous side cannons
-    const interval = setInterval(() => {
-        if (Date.now() > end) {
-            clearInterval(interval)
-            return
+    const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now()
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval)
         }
 
-        confetti({
-            particleCount: 40,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0, y: 0.6 },
-            colors
-        })
-
-        confetti({
-            particleCount: 40,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1, y: 0.6 },
-            colors
-        })
-    }, 300)
+        const particleCount = 50 * (timeLeft / duration)
+        
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } })
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } })
+    }, 250)
 }
 
 function toggleMusic() {
@@ -61,3 +77,4 @@ function toggleMusic() {
         document.getElementById('music-toggle').textContent = '🔊'
     }
 }
+
