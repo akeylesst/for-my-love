@@ -11,21 +11,23 @@ const gifStages = [
 
 const noMessages = [
   "No",
-  "Juhi, are you positive? 🤔",
-  "Pookie please... 🥺",
-  "But we're soulmates! 😭",
-  "I'll be the saddest man ever... 😢",
-  "Please say yes??? 💔",
-  "Don't do this to me, Juhi...",
+  "Wait, but you're too perfect to say no! ❤️",
+  "Juhi, the world stops when you smile... rethink? 🥺",
+  "A soul as beautiful as yours belongs with me... please? ✨",
+  "You're the best thing that ever happened to me! 💍",
+  "Juhi, my world is brighter because of you...",
+  "Your kindness is literally unmatched! ✨",
+  "How can I let go of someone so perfect? 🥺",
+  "Don't do this to me, my love...",
   "Last chance! 😭",
-  "You can't catch me! 😜",
+  "You're too fast for me, just like you captured my heart! 😜",
 ];
 
 const yesTeasePokes = [
-  "Wait, try saying no first... just to see what happens 😏",
-  "Go on, hit no... I dare you 👀",
-  "You're missing out on the fun 😈",
-  "Click no once, Juhi, I promise it's funny 😏",
+  "Juhi, I have a special secret for you in the 'No' button... go look 😏",
+  "I dare you to click 'No' once, just to see how much I adore you 👀",
+  "The 'No' button is hidden with surprises for my favorite girl 😈",
+  "One tiny click on 'No' to see a little magic, pookie? 😏",
 ];
 
 let yesTeasedCount = 0;
